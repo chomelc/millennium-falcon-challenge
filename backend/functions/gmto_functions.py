@@ -1,7 +1,7 @@
 import sys
 import os
 from db_functions import create_connection, select_all_routes, select_all_unique_planets
-from planets_graph import Graph, dijkstra
+from planets_graph import Graph, dijkstra, navigate_graph
 from empire import Empire
 from millennium_falcon import MillenniumFalcon
 
@@ -21,7 +21,10 @@ def compute_odds(empire_file, millennium_falcon_file="millennium-falcon.json"):
     cur = cnx.cursor()
     indexes = create_indexes(cur)
 
-    shortest_paths = format_dijkstra_result(dijkstra(graph=create_graph(cur, indexes),
+    graph = create_graph(cur, indexes)
+    cnx.close()
+
+    shortest_paths = format_dijkstra_result(dijkstra(graph=graph,
                                                      start_vertex=indexes[mf.get_departure()]), indexes)
 
     # the Millennium Falcon cannot go from Tatooine to Endor in less than 7 days in any way
@@ -38,11 +41,11 @@ def compute_odds(empire_file, millennium_falcon_file="millennium-falcon.json"):
     if (mf.get_autonomy() < min(shortest_paths.values())):
         return 0
 
-    # TODO: other use cases
-
-    cnx.close()
-
-    return 42
+    return navigate_graph(graph=graph,
+                          start_vertex=indexes[mf.get_departure()],
+                          autonomy=mf.get_autonomy(),
+                          bounty_hunters=empire.get_bounty_hunters(),
+                          countdown=empire.get_countdown())
 
 
 def create_indexes(cur):

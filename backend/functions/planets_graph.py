@@ -51,3 +51,19 @@ def dijkstra(graph, start_vertex):
                         pq.put((new_cost, neighbor))
                         D[neighbor] = new_cost
     return D
+
+
+def navigate_graph(graph, start_vertex, autonomy, bounty_hunters, countdown):
+    """Navigates the graph, determines the best path and returns 
+    the computed odds of that path.
+    @param `graph`: the graph to navigate into
+    @param `start_vertex`: the origin node from which the alogirhtm 
+    navigates the graph
+    @param `autonomy`: the autonomy of the Millennium Falcon
+    @param `bounty_hunters`: locations and days where Bounty Hunters have planned to 
+    hunt the Millennium Falcon
+    @param `countdown`: number of days before the Death Star annihilates Endor
+    @return the computed odds of the best path 
+    """
+    total_travel_time = 0
+    return 42
