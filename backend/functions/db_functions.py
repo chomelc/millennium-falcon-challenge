@@ -12,18 +12,29 @@ def create_connection(db_file):
     try:
         cnx = sqlite3.connect(db_file)
     except Error as e:
-        print(e)
+        print(f'error: {e}')
 
     return cnx
 
 
-def select_all_routes(cnx):
+def select_all_routes(cur):
     """
     Query all rows in the ROUTES table.
-    @param `cnx`: the `Connection` object
+    @param `cur`: the `Connection`\'s cursor'
     @return the fetched routes
     """
-    cur = cnx.cursor()
     cur.execute("SELECT * FROM ROUTES")
+
+    return (cur.fetchall())
+
+
+def select_all_unique_planets(cur):
+    """
+    Query all unique planets in the ROUTES table.
+    @param `cur`: the `Connection`\'s cursor'
+    @return the names of the distinct planets
+    """
+    cur.execute(
+        "SELECT DISTINCT origin FROM ROUTES UNION SELECT DISTINCT destination FROM ROUTES")
 
     return (cur.fetchall())
