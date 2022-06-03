@@ -24,13 +24,18 @@ def compute_odds(empire_file, millennium_falcon_file="millennium-falcon.json"):
     shortest_paths = format_dijkstra_result(dijkstra(graph=create_graph(cur, indexes),
                                                      start_vertex=indexes[mf.get_departure()]), indexes)
 
-    # the Millennium Falcon cannot go from Tatooine to Endor in less than 7 days
-    if (empire.get_countdown() < shortest_paths['Endor']):
+    # the Millennium Falcon cannot go from Tatooine to Endor in less than 7 days in any way
+    if (empire.get_countdown() < shortest_paths[mf.get_arrival()]):
         return 0
 
     # the Millennium Falcon cannot go from Tatooine to Endor in 7 days or less
     # if its autonomy is less than 7 days
-    if (empire.get_countdown() == shortest_paths['Endor'] and mf.get_autonomy() < shortest_paths['Endor']):
+    if (empire.get_countdown() == shortest_paths[mf.get_arrival()] and mf.get_autonomy() < shortest_paths[mf.get_arrival()]):
+        return 0
+
+    # the Millennium Falcon cannot go anywhere if its autonomy is less
+    # than the travel time to the closest planet
+    if (mf.get_autonomy() < min(shortest_paths.values())):
         return 0
 
     # TODO: other use cases
@@ -78,6 +83,8 @@ def format_dijkstra_result(D, indexes):
     for key in D:
         result[list(indexes.keys())[
             list(indexes.values()).index(key)]] = D[key]
+    # removing the origin (travel time = 0) from the result
+    result = {key: val for key, val in result.items() if val != 0}
     return result
 
 
