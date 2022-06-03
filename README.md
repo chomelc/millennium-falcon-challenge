@@ -1,5 +1,7 @@
 # :rocket: Millennium Falcon Challenge @ [Dataiku](https://www.dataiku.com/)
 
+> :book: [Project's Specification](https://github.com/dataiku/millenium-falcon-challenge)
+
 ## :floppy_disk: Database Creation & Population
 
 The following command creates and populates the `universe.db` database based on `universe.sql`:
