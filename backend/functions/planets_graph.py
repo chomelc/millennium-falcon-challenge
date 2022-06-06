@@ -28,7 +28,7 @@ def dijkstra(graph, start_vertex):
     """Returns the shortests paths between nodes of the graph with `start_vertex` 
     as the origin, using the Dijkstra algorithm.
     @param `graph`: the graph to evaluate
-    @param `start_vertex`: the origin node from which the alogirhtm 
+    @param `start_vertex`: the origin node from which the algorithm 
     calculates the shortest paths
     """
     D = {v: float('inf') for v in range(graph.v)}
@@ -57,7 +57,7 @@ def navigate_graph(graph, start_vertex, autonomy, bounty_hunters, countdown):
     """Navigates the graph, determines the best path and returns 
     the computed odds of that path.
     @param `graph`: the graph to navigate into
-    @param `start_vertex`: the origin node from which the alogirhtm 
+    @param `start_vertex`: the origin node from which the algorithm 
     navigates the graph
     @param `autonomy`: the autonomy of the Millennium Falcon
     @param `bounty_hunters`: locations and days where Bounty Hunters have planned to 
