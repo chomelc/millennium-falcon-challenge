@@ -1,3 +1,4 @@
+import math
 from queue import PriorityQueue
 
 
@@ -24,15 +25,62 @@ class Graph:
         self.edges[v][u] = weight
 
 
-def dijkstra(graph, start_vertex):
-    """Returns the shortests paths between nodes of the graph with `start_vertex` 
-    as the origin, using the Dijkstra algorithm.
-    @param `graph`: the graph to evaluate
-    @param `start_vertex`: the origin node from which the algorithm 
-    calculates the shortest paths
+def capture_probability(met_bounty_hunters):
+    """Computes the total probability of being captured based on the 
+    number of bounty hunters met.
+    @param `met_bounty_hunters`: the number of bounty hunters met
+    @return the total probability of being captured
     """
-    D = {v: float('inf') for v in range(graph.v)}
-    D[start_vertex] = 0
+    sum = 0
+    for n in range(0, met_bounty_hunters):
+        sum += (math.pow(9, (n))) / (math.pow(10, n + 1))
+    return sum
+
+
+def mission_success(met_bounty_hunters):
+    """Computes the total probability of the mission's success based on the 
+    number of bounty hunters met.
+    @param `met_bounty_hunters`: the number of bounty hunters met
+    @return the total probability of the mission's success
+    """
+    return "{0:.2f}".format((1 - capture_probability(met_bounty_hunters)) * 100)
+
+
+def navigate_graph(graph, start_vertex, target_vertex, autonomy, bounty_hunters, countdown):
+    """Navigates the graph, determines the best path and returns 
+    a list of paths with their cost (in days) and the odds of the mission's success.
+    Note: the best path is not the shortest but the one with the best odds, 
+    which takes the countdown into consideration.
+    @param `graph`: the graph to navigate into
+    @param `start_vertex`: the origin node from which the algorithm 
+    navigates the graph
+    @param `target_vertex`: the target node of the graph
+    @param `autonomy`: the autonomy of the Millennium Falcon
+    @param `bounty_hunters`: locations and days where Bounty Hunters have planned to 
+    hunt the Millennium Falcon
+    @param `countdown`: number of days before the Death Star annihilates Endor
+    @return a list of paths with their cost (in days) and the odds of the mission's success
+    """
+
+    # the Millennium Falcon cannot go from Tatooine to Endor in less than 7 days in any way
+    # if (empire.get_countdown() < shortest_paths[mf.get_arrival()]):
+    #     return 0
+
+    # the Millennium Falcon cannot go from Tatooine to Endor in 7 days or less
+    # if its autonomy is less than 7 days
+    # if (empire.get_countdown() == shortest_paths[mf.get_arrival()] and mf.get_autonomy() < shortest_paths[mf.get_arrival()]):
+    #     return 0
+
+    # the Millennium Falcon cannot go anywhere if its autonomy is less
+    # than the travel time to the closest planet
+    # if (mf.get_autonomy() < min(shortest_paths.values())):
+    #     return 0
+
+    result = []
+    total_travel_time = 0
+    met_bounty_hunters = 0
+    fuel = autonomy
+    time_left = countdown
 
     pq = PriorityQueue()
     pq.put((0, start_vertex))
@@ -45,25 +93,11 @@ def dijkstra(graph, start_vertex):
             if graph.edges[current_vertex][neighbor] != -1:
                 distance = graph.edges[current_vertex][neighbor]
                 if neighbor not in graph.visited:
-                    old_cost = D[neighbor]
-                    new_cost = D[current_vertex] + distance
-                    if new_cost < old_cost:
-                        pq.put((new_cost, neighbor))
-                        D[neighbor] = new_cost
-    return D
-
-
-def navigate_graph(graph, start_vertex, autonomy, bounty_hunters, countdown):
-    """Navigates the graph, determines the best path and returns 
-    the computed odds of that path.
-    @param `graph`: the graph to navigate into
-    @param `start_vertex`: the origin node from which the algorithm 
-    navigates the graph
-    @param `autonomy`: the autonomy of the Millennium Falcon
-    @param `bounty_hunters`: locations and days where Bounty Hunters have planned to 
-    hunt the Millennium Falcon
-    @param `countdown`: number of days before the Death Star annihilates Endor
-    @return the computed odds of the best path 
-    """
-    total_travel_time = 0
+                    print("TODO")
+                    # old_cost = D[neighbor]
+                    # new_cost = D[current_vertex] + distance
+                    # if new_cost < old_cost:
+                    #     pq.put((new_cost, neighbor))
+                    #     D[neighbor] = new_cost
+    graph.visited = []
     return 42
