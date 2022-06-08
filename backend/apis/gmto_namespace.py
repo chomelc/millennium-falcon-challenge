@@ -24,12 +24,12 @@ class Odds(Resource):
     @gmto_ns.response(200, 'Success')
     @gmto_ns.doc(params={
         'millennium-falcon': {
-            'description': 'The path to the `millennium-falcon.json` file relative to `backend/`. \
+            'description': 'The `millennium-falcon.json` file relative to `backend/`. \
                 If not provided, it uses the default one stored in `backend/`.',
             'type': 'string'
         },
         'empire': {
-            'description': 'The path to the `empire.json` file relative to `backend/`.',
+            'description': 'The `empire.json` file relative to `backend/`.',
             'type': 'string'
         }
     }

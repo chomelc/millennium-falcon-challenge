@@ -8,8 +8,8 @@ from millennium_falcon import MillenniumFalcon
 
 def compute_odds(empire_file, millennium_falcon_file="millennium-falcon.json"):
     """Computes the odds of the Falcon's mission to succeed.
-    @param `empire_file`: the path to the `empire.json` file
-    @param `millennium_falcon_file`: the path to the `millennium-falcon.json` file, 
+    @param `empire_file`: the `empire.json` file
+    @param `millennium_falcon_file`: the `millennium-falcon.json` file, 
         if not provided, it uses the default one stored in `backend/` 
     @return the computed odds
     """

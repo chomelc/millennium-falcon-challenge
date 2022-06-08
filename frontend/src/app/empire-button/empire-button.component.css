@@ -1,0 +1,31 @@
+.inputfile {
+    display: none;
+}
+
+#empire-label {
+    cursor: pointer;
+}
+
+#empire-label small {
+    font-size: medium;
+}
+
+#empire-button, #clear-button {
+    text-shadow: none;
+    border: none;
+    margin: 20px;
+    padding: 10px 40px;
+    width: auto;
+    overflow: visible;
+    outline: 0;
+    cursor: pointer;
+    background: 0 0;
+    color: inherit;
+    font: inherit;
+    line-height: normal;
+    -webkit-font-smoothing: inherit;
+    -moz-osx-font-smoothing: inherit;
+    -webkit-appearance: none;
+    background: rgba(219, 14, 21, .2);
+    text-transform: uppercase
+}

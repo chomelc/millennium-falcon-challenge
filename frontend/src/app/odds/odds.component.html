@@ -1,0 +1,30 @@
+<div class="container on">
+  <div class="screen">
+    <h3 class="title">ODDS COMPUTED</h3>
+    <div class="box--outer">
+      <div class="box">
+        <div class="box--inner">
+          <div class="content">
+            <div class="holder">
+              <b>Mission Success Odds: </b>
+              <br />
+              <div class="row">
+                <div class="col col__left">
+                  <div class="progress-container">
+                    <div class="progress" [style.width]="odds + '%'"></div>
+                  </div>
+                </div>
+                <div class="col col__center">{{ odds }}%</div>
+              </div>
+              <div class="row">
+                <button id="back" name="back" [routerLink]="['/']">
+                  >> Back to Dashboard <<
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

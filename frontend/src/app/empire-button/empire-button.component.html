@@ -1,0 +1,17 @@
+<button id="empire-button">
+  <label for="empire" id="empire-label"
+    >{{ label }}
+    <small *ngIf="empireFile == undefined">No file uploaded.</small></label
+  >
+  <input
+    type="file"
+    name="empire"
+    id="empire"
+    class="inputfile"
+    accept=".json"
+    (change)="upload($event)"
+  />
+</button>
+<button *ngIf="empireFile" id="clear-button" (click)="clearFile()">
+  [clear]
+</button>

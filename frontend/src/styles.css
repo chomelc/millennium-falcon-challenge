@@ -1,0 +1,52 @@
+body,
+html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none
+}
+
+body {
+    color: #db0e15;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 26px;
+    font-weight: 300;
+    text-shadow: 0 0 5px rgba(219, 14, 21, .8);
+    background: url(https://image.ibb.co/h2hLAJ/bg.png) #000;
+    position: relative;
+    height: 100vh
+}
+
+body {
+    position: relative;
+    overflow: hidden
+}
+
+body::after {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 2;
+    pointer-events: none;
+    background: rgba(49, 45, 45, .1);
+    opacity: 0;
+    pointer-events: none;
+    -webkit-animation: flicker .15s infinite, steady 4s;
+    animation: flicker .15s infinite, steady 4s
+}
+
+body.off {
+    background: #000
+}
+
+body.off::after {
+    -webkit-animation: none;
+    animation: none
+}

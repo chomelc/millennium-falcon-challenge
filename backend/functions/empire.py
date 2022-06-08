@@ -1,4 +1,4 @@
-from json_functions import get_data_from_json
+from json_functions import get_data_from_json, get_data_from_text
 
 
 class Empire:
@@ -7,11 +7,16 @@ class Empire:
     countdown = 0
     bounty_hunters = []
 
-    def __init__(self, path_to_file):
+    def __init__(self, file):
         """Constructs the Empire object with the specified json file.
-        @param `path_to_file`: the path to the JSON file
+        @param `file`: the JSON file
         """
-        data = get_data_from_json(path_to_file)
+        if (file.startswith("{")):
+            # if the data is provided as raw json
+            data = get_data_from_text(file)
+        else:
+            # if the data is provided as a .json file
+            data = get_data_from_json(file)
         self.countdown = data['countdown']
         self.bounty_hunters = data['bounty_hunters']
 

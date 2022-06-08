@@ -1,0 +1,32 @@
+<div class="row">
+  <div class="col col__left label">Departure</div>
+  <div class="col col__center">
+    <input
+      type="text"
+      id="departure"
+      maxlength="32"
+      value="Tatooine"
+      readonly
+    />
+  </div>
+</div>
+<div class="row">
+  <div class="col col__left label">Destination</div>
+  <div class="col col__center">
+    <input type="text" id="destination" maxlength="32" value="Endor" readonly />
+  </div>
+</div>
+<div class="row">
+  <app-empire-button [(empireFile)]="empireFile"></app-empire-button>
+</div>
+<div class="row">
+  <button
+    id="submit"
+    name="submit"
+    [attr.disabled]="!empireFile ? 'disabled' : null"
+    [routerLink]="['/odds']"
+    [queryParams]="{ empire: empireFile }"
+  >
+    >> compute odds <<
+  </button>
+</div>

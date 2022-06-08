@@ -9,6 +9,8 @@ export MFC_PATH=~/<path_to_this_folder>
 source $MFC_PATH/cli/give-me-the-odds.sh
 ```
 
+---
+
 ## :floppy_disk: Database Creation & Population
 
 The following command creates and populates the `universe.db` database based on `universe.sql`:
@@ -86,6 +88,20 @@ backend/tests/gmto_test.py::TestComputeOdds::test_third_sample PASSED    [100%]
 ## :round_pushpin: Frontend
 
 **Navigate to `/frontend`.**
+
+:gear: _This frontend app was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.3.5._
+
+### :gear: Running the app
+
+Install or update dependencies with:
+
+```bash
+npm install
+```
+
+Run `npm run start` for a dev server and navigate to http://localhost:4200/. The application will automatically reload if you change any of the source files.
+
+Make sure the backend is running on http://localhost:5000/.
 
 ---
 
