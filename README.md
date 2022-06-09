@@ -107,6 +107,29 @@ Run `npm run start` for a dev server and navigate to http://localhost:4200/. The
 
 Make sure the backend is running on http://localhost:5000/.
 
+### :eyes: Application overview
+
+![Millennium Falcon Dashboard](frontend/src/assets/gmto-screenshot.png)
+
+When landing on the application you will be able to:
+
+- visualize the data from `unvierse.db` - ie. the different routes and the corresponding travel time between each planet of the universe ;
+- upload an `empire.json` file containing the data intercepted by the rebels about the plans of the Empire to compute the odds of the mission's success.
+
+  The `empire.json` file should follow this format:
+
+  ```json
+  {
+    "countdown": 6,
+    "bounty_hunters": [
+      { "planet": "Tatooine", "day": 4 },
+      { "planet": "Dagobah", "day": 5 }
+    ]
+  }
+  ```
+
+  Some sample `empire.json` files are located in `sample-data/`.
+
 ---
 
 ## CLI
