@@ -91,6 +91,8 @@ backend/tests/gmto_test.py::TestComputeOdds::test_third_sample PASSED    [100%]
 
 :gear: _This frontend app was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.3.5._
 
+:art: _UI inspiration from [rémi on CodePen](https://codepen.io/remsrob/pen/ZRyqNx)._
+
 ### :gear: Running the app
 
 Install or update dependencies with:
