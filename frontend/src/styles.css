@@ -59,6 +59,26 @@ body.off::after {
     overflow: hidden
 }
 
+#submit, #empire-button, #clear-button, #back {
+    text-shadow: none;
+    border: none;
+    margin: 20px;
+    padding: 10px 40px;
+    width: auto;
+    overflow: visible;
+    outline: 0;
+    cursor: pointer;
+    background: 0 0;
+    color: inherit;
+    font: inherit;
+    line-height: normal;
+    -webkit-font-smoothing: inherit;
+    -moz-osx-font-smoothing: inherit;
+    -webkit-appearance: none;
+    background: rgba(219, 14, 21, .2);
+    text-transform: uppercase
+}
+
 span.amp {
     font-family: Baskerville, 'Goudy Old Style', Palatino, 'Book Antiqua', serif !important;
     font-style: italic
