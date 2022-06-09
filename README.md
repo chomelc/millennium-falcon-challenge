@@ -9,6 +9,8 @@ export MFC_PATH=~/<path_to_this_folder>
 source $MFC_PATH/cli/give-me-the-odds.sh
 ```
 
+**You will then need to open a new shell for changes to take effect.**
+
 ---
 
 ## :floppy_disk: Database Creation & Population
