@@ -9,6 +9,8 @@ import { EmpireButtonComponent } from './empire-button/empire-button.component';
 import { OddsComponent } from './odds/odds.component';
 import { ComputeOddsService } from './services/compute-odds.service';
 import { HttpClientModule } from '@angular/common/http';
+import { PlanetsMapModalComponent } from './planets-map-modal/planets-map-modal.component';
+import { GetRoutesService } from './services/get-routes.service';
 
 @NgModule({
   declarations: [
@@ -17,9 +19,10 @@ import { HttpClientModule } from '@angular/common/http';
     LandingPageComponent,
     EmpireButtonComponent,
     OddsComponent,
+    PlanetsMapModalComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule],
-  providers: [ComputeOddsService],
+  providers: [ComputeOddsService, GetRoutesService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

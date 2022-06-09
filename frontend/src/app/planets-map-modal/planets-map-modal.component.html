@@ -1,0 +1,10 @@
+<div id="planets-map-modal" class="modal">
+  <div class="modal-content">
+    <span class="close" (click)="closeModal()">&times;</span>
+    <h3>Universe Map</h3>
+    <p *ngFor="let route of routes">
+      {{ route.origin }} &rarr; {{ route.destination }} :
+      {{ route.travel_time }} days
+    </p>
+  </div>
+</div>

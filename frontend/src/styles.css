@@ -59,7 +59,7 @@ body.off::after {
     overflow: hidden
 }
 
-#submit, #empire-button, #clear-button, #back {
+#planets-map, #submit, #empire-button, #clear-button, #back {
     text-shadow: none;
     border: none;
     margin: 20px;

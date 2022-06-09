@@ -11,7 +11,7 @@ export class LandingPageComponent implements OnInit {
   ngOnInit(): void {}
 
   openModal() {
-    var modal = document.getElementById('routesModal');
+    var modal = document.getElementById('planets-map-modal');
     if (modal) {
       modal.style.display = 'block';
     }

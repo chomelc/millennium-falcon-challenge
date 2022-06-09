@@ -24,7 +24,8 @@ class Routes(Resource):
         """List all routes."""
         data = []
         with create_connection('db/universe.db') as cnx:
-            for row in select_all_routes(cnx):
+            cur = cnx.cursor()
+            for row in select_all_routes(cur):
                 data.append({'origin': row[0],
                              'destination': row[1], 'travel_time': row[2]})
             return data

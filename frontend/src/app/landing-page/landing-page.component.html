@@ -1,10 +1,17 @@
 <div class="container on">
   <div class="screen">
+    <header>
+      <button id="planets-map" (click)="openModal()">
+        <img src="assets/planet.svg" alt="planet-icon" />
+        Planets Map
+      </button>
+    </header>
     <h3 class="title">CONNECTION ESTABLISHED</h3>
     <div class="box--outer">
       <div class="box">
         <div class="box--inner">
           <div class="content">
+            <app-planets-map-modal></app-planets-map-modal>
             <div class="holder">
               <b>Welcome to the Millennium Falcon's Dashboard</b> — please
               provide any information on bounty hunters whereabouts.
