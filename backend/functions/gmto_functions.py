@@ -1,9 +1,32 @@
 import sys
 import os
-from db_functions import create_connection, select_all_routes, select_all_unique_planets
-from planets_graph import Graph, navigate_graph
+import math
+import networkx as nx
+from networkx.classes.function import path_weight
+from db_functions import create_connection, select_all_routes
 from empire import Empire
 from millennium_falcon import MillenniumFalcon
+
+
+def capture_probability(met_bounty_hunters):
+    """Computes the total probability of being captured based on the
+    number of bounty hunters met.
+    @param `met_bounty_hunters`: the number of bounty hunters met
+    @return the total probability of being captured
+    """
+    sum = 0
+    for n in range(0, met_bounty_hunters):
+        sum += (math.pow(9, (n))) / (math.pow(10, n + 1))
+    return sum
+
+
+def mission_success(met_bounty_hunters):
+    """Computes the total probability of the mission's success based on the
+    number of bounty hunters met.
+    @param `met_bounty_hunters`: the number of bounty hunters met
+    @return the total probability of the mission's success
+    """
+    return "{0:.2f}".format((1 - capture_probability(met_bounty_hunters)) * 100)
 
 
 def compute_odds(empire_file, millennium_falcon_file="millennium-falcon.json"):
@@ -19,60 +42,78 @@ def compute_odds(empire_file, millennium_falcon_file="millennium-falcon.json"):
     db = f"{os.environ.get('MFC_PATH')}/backend/{mf.get_routes_db()}"
     cnx = create_connection(db)
     cur = cnx.cursor()
-    indexes = create_indexes(cur)
 
-    graph = create_graph(cur, indexes)
+    graph = create_graph(cur)
     cnx.close()
 
-    return navigate_graph(graph=graph,
-                          start_vertex=indexes[mf.get_departure()],
-                          target_vertex=indexes[mf.get_arrival()],
-                          autonomy=mf.get_autonomy(),
-                          bounty_hunters=empire.get_bounty_hunters(),
-                          countdown=empire.get_countdown())
+    all_paths_info = get_all_paths_info(
+        graph, mf.get_departure(), mf.get_arrival())
+
+    for path_info in all_paths_info:
+        # for all simple paths
+        fuel = autonomy = mf.get_autonomy()
+        countdown = empire.get_countdown()
+        bounty_hunters = empire.get_bounty_hunters()
+        path = path_info["path"]
+        current_day = 0
+        met_bounty_hunters = 0
+
+        for index in range(len(path) - 1):
+            # for all routes
+            distance = (graph[path[index]][path[index + 1]])["weight"]
+            current_day += distance
+
+            if (fuel == 0 and path[index + 1] == f"{path[index]}Bis"):
+                # refuel
+                # print(f"REFUELING ON DAY {current_day}")
+                fuel = autonomy
+            else:
+                fuel -= distance
+
+            # check if there is a bounty hunter on this neighbor
+            # planet at the time of the Millennium Falcon's visit
+            if (any((d['planet'] == path[index] or d['planet'] == path[index][:-3]) for d in bounty_hunters)
+                    and any(d['day'] == current_day for d in bounty_hunters)):
+                met_bounty_hunters += 1
+                # print(
+                #     f"there is a bounty hunter on {path[index]} on day {current_day}")
+                path_info["mission_success"] = float(mission_success(
+                    met_bounty_hunters))
+
+            # if the travel_time exceeds the countdown, the mission fails
+            if path_info["total_travel_time"] > countdown or fuel < 0:
+                path_info["mission_success"] = 0
+
+        # print(f"FUEL AT THE END: {fuel}")
+
+    # print(max(all_paths_info, key=lambda x: x['mission_success']))
+    return max(path["mission_success"] for path in all_paths_info)
 
 
-def create_indexes(cur):
-    """Creates a dictionnary containing the association of planet names with indexes
-    @param `cur`: the `Connection`\'s cursor
-    @return the dict containing the association of the planets with indexes
-    """
-    indexes = {}
-    index = 0
-    for planet in select_all_unique_planets(cur):
-        indexes[planet[0]] = index
-        index += 1
-    return indexes
-
-
-def create_graph(cur, indexes):
-    """Creates a weighed graph of the planets, with the planets being nodes 
+def create_graph(cur):
+    """Creates a weighted graph of the planets, with the planets being nodes 
     and the travel time between two planets being the weight of the edge 
     between the corresponding nodes
     @param `cur`: the `Connection`\'s cursor
     @param `indexes`: the dict containing the association of the planets with indexes
-    @return the `Graph`
+    @return the networkx `Graph`
     """
-    g = Graph(len(indexes))
+    G = nx.Graph()
     for row in select_all_routes(cur):
-        g.add_edge(indexes[row[0]], indexes[row[1]], row[2])
-    return g
+        G.add_edge(row[0], row[1], weight=row[2])
+        # adding "bis" nodes to deal with the
+        # fact of staying on a planet
+        G.add_edge(row[0], f"{row[0]}Bis", weight=1)
+        G.add_edge(f"{row[0]}Bis", row[1], weight=row[2])
+    return G
 
 
-def format_dijkstra_result(D, indexes):
-    """Format the output the the Dijkstra algorithm by 
-    replacing the indexes with actual names of the planets.
-    @param `D`: the result of the Dijkstra algorithm
-    @param `indexes`: the dict containing the association of the planets with indexes
-    @return the formatted output of the Dijkstra algorithm
-    """
-    result = {}
-    for key in D:
-        result[list(indexes.keys())[
-            list(indexes.values()).index(key)]] = D[key]
-    # removing the origin (travel time = 0) from the result
-    result = {key: val for key, val in result.items() if val != 0}
-    return result
+def get_all_paths_info(graph, source, target):
+    all_paths_info = []
+    for path in nx.all_simple_paths(graph, source, target):
+        all_paths_info.append(
+            {"path": path, "total_travel_time": path_weight(graph, path, weight="weight"), "mission_success": 100})
+    return all_paths_info
 
 
 # defining a main to be used with the CLI

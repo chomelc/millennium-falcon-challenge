@@ -26,15 +26,3 @@ def select_all_routes(cur):
     cur.execute("SELECT * FROM ROUTES")
 
     return (cur.fetchall())
-
-
-def select_all_unique_planets(cur):
-    """
-    Query all unique planets in the ROUTES table.
-    @param `cur`: the `Connection`\'s cursor'
-    @return the names of the distinct planets
-    """
-    cur.execute(
-        "SELECT DISTINCT origin FROM ROUTES UNION SELECT DISTINCT destination FROM ROUTES")
-
-    return (cur.fetchall())
