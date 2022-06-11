@@ -37,7 +37,7 @@ class Odds(Resource):
     }
     )
     def get(self):
-        """Computed odds."""
+        """Computed odds of the mission success."""
         args = parser.parse_args()
         empire_path = args['empire']
         if (args['millennium-falcon'] is not None):

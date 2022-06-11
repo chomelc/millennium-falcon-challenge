@@ -34,7 +34,8 @@ def compute_odds(empire_file, millennium_falcon_file="millennium-falcon.json"):
     @param `empire_file`: the `empire.json` file
     @param `millennium_falcon_file`: the `millennium-falcon.json` file, 
         if not provided, it uses the default one stored in `backend/` 
-    @return the computed odds
+    @return the computed odds, including the path, the total_travel_time 
+    and the odds of the mission success
     """
     mf = MillenniumFalcon(millennium_falcon_file)
     empire = Empire(empire_file)
@@ -89,6 +90,10 @@ def compute_odds(empire_file, millennium_falcon_file="millennium-falcon.json"):
 
 
 def get_odds(computed_odds):
+    '''Get the odds from the computed odds.
+    @param `computed_odds`: the computed odds
+    @return the odds of the mission success 
+    '''
     return computed_odds["mission_success"]
 
 
@@ -111,6 +116,14 @@ def create_graph(cur):
 
 
 def get_all_paths_info(graph, source, target):
+    '''Gets all simple paths from a source node to a target node in a graph. 
+    Includes the path and the weight, and sets default mission success odds to 100.
+    @param `graph`: the graph to explore
+    @param `source`: the source node
+    @param `target`: the target node
+    @return a list of all simple paths from a source node to a target node in a graph, 
+    their weight and default mission success odds at 100
+    '''
     all_paths_info = []
     for path in nx.all_simple_paths(graph, source, target):
         all_paths_info.append(
