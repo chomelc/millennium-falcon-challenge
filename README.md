@@ -46,6 +46,7 @@ The `ROUTES` table of `universe.db` contains the following data:
 - [Flask-RESTX](https://flask-restx.readthedocs.io/en/latest/index.html)
 - [Flask-CORS](https://flask-cors.readthedocs.io/en/latest/)
 - [pytest](https://docs.pytest.org/en/6.2.x/contents.html)
+- [NetworkX](https://networkx.org/)
 
 Install all the dependencies locally with:
 
