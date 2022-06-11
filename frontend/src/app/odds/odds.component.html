@@ -17,6 +17,15 @@
                 <div class="col col__center">{{ odds }}%</div>
               </div>
               <div class="row">
+                <p *ngIf="odds == 0; else missionSuccess" class="blink_me">
+                  The mission cannot succeed.
+                </p>
+                <ng-template #missionSuccess>
+                  <p>You can reach Endor in {{ total_travel_time }} days:</p>
+                  <p>{{ path }}</p>
+                </ng-template>
+              </div>
+              <div class="row">
                 <button id="back" name="back" [routerLink]="['/']">
                   >> Back to Dashboard <<
                 </button>

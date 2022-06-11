@@ -8,6 +8,8 @@ gmto_ns = Namespace('give-me-the-odds', 'Give Me The Odds API')
 # ----------- FIELDS ----------- #
 
 odds_fields = gmto_ns.model('Odds', {
+    'path': fields.String,
+    'total_travel_time': fields.Integer,
     'odds': fields.Float
 })
 
@@ -39,9 +41,9 @@ class Odds(Resource):
         args = parser.parse_args()
         empire_path = args['empire']
         if (args['millennium-falcon'] is not None):
-            odds = compute_odds(
+            computed_odds = compute_odds(
                 empire_path, millennium_falcon_file=args['millennium-falcon'])
         else:
-            odds = compute_odds(empire_path)
+            computed_odds = compute_odds(empire_path)
 
-        return {'odds': odds}
+        return {'path': computed_odds["path"], 'total_travel_time': computed_odds["total_travel_time"], 'odds': computed_odds["mission_success"]}

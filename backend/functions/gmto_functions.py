@@ -83,10 +83,13 @@ def compute_odds(empire_file, millennium_falcon_file="millennium-falcon.json"):
             # or the Millennium Falcon did not refuel when needed,
             # the mission fails
             if path_info["total_travel_time"] > countdown or fuel < 0:
-                path_info["mission_success"] = 0
+                path_info["mission_success"] = 0.0
 
-    # print(max(all_paths_info, key=lambda x: x['mission_success']))
-    return max(path["mission_success"] for path in all_paths_info)
+    return max(all_paths_info, key=lambda x: x['mission_success'])
+
+
+def get_odds(computed_odds):
+    return computed_odds["mission_success"]
 
 
 def create_graph(cur):
@@ -111,10 +114,10 @@ def get_all_paths_info(graph, source, target):
     all_paths_info = []
     for path in nx.all_simple_paths(graph, source, target):
         all_paths_info.append(
-            {"path": path, "total_travel_time": path_weight(graph, path, weight="weight"), "mission_success": 100})
+            {"path": path, "total_travel_time": path_weight(graph, path, weight="weight"), "mission_success": 100.0})
     return all_paths_info
 
 
 # defining a main to be used with the CLI
 if __name__ == '__main__':
-    print(compute_odds(sys.argv[2], sys.argv[1]))
+    print(get_odds(compute_odds(sys.argv[2], sys.argv[1])))
