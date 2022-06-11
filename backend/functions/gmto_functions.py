@@ -63,28 +63,27 @@ def compute_odds(empire_file, millennium_falcon_file="millennium-falcon.json"):
             distance = (graph[path[index]][path[index + 1]])["weight"]
             current_day += distance
 
-            if (fuel == 0 and path[index + 1] == f"{path[index]}Bis"):
+            # if the Millennium Falcon waits on a planet,
+            # refuel anyway
+            if (path[index + 1] == f"{path[index]}Bis"):
                 # refuel
-                # print(f"REFUELING ON DAY {current_day}")
                 fuel = autonomy
             else:
                 fuel -= distance
 
             # check if there is a bounty hunter on this neighbor
             # planet at the time of the Millennium Falcon's visit
-            if (any((d['planet'] == path[index] or d['planet'] == path[index][:-3]) for d in bounty_hunters)
+            if (any((d['planet'] == path[index + 1] or d['planet'] == path[index + 1][:-3]) for d in bounty_hunters)
                     and any(d['day'] == current_day for d in bounty_hunters)):
                 met_bounty_hunters += 1
-                # print(
-                #     f"there is a bounty hunter on {path[index]} on day {current_day}")
                 path_info["mission_success"] = float(mission_success(
                     met_bounty_hunters))
 
-            # if the travel_time exceeds the countdown, the mission fails
+            # if the travel_time exceeds the countdown
+            # or the Millennium Falcon did not refuel when needed,
+            # the mission fails
             if path_info["total_travel_time"] > countdown or fuel < 0:
                 path_info["mission_success"] = 0
-
-        # print(f"FUEL AT THE END: {fuel}")
 
     # print(max(all_paths_info, key=lambda x: x['mission_success']))
     return max(path["mission_success"] for path in all_paths_info)
